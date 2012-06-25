@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 	$("#login").click(function() {
 
-		var action = $("#form1").attr('action');
+		var action = $("#loginform").attr('action');
 		var form_data = {
 			username: $("#username").val(),
 			password: $("#password").val(),
@@ -30,7 +30,7 @@ $(document).ready(function() {
 			success: function(response)
 			{
 				if(response == 'success')
-					$("#form1").slideUp('slow', function() {
+					$("#loginform").slideUp('slow', function() {
 						$("#message").html("<p class='success'>You have logged in successfully!</p><a href=\"logout.php\">Logout</a><br />");
 					});
 				else
@@ -44,7 +44,7 @@ $(document).ready(function() {
 	});
 </script>
 
-  <form id="form1" name="form1" action="login_action.php" method="post">
+  <form id="loginform" name="loginform" action="login_action.php" method="post">
     <p>
       <label for="username">Username: </label>
       <input type="text" name="username" id="username" />

@@ -1,0 +1,1 @@
+Development images are saved into this directory.

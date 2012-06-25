@@ -31,7 +31,7 @@ $(document).ready(function() {
 			{
 				if(response == 'success')
 					$("#form1").slideUp('slow', function() {
-						$("#message").html("<p class='success'>You have logged in successfully!</p>");
+						$("#message").html("<p class='success'>You have logged in successfully!</p><a href=\"logout.php\">Logout</a><br />");
 					});
 				else
 					$("#message").html("<p class='error'>Invalid username and/or password.</p>");	

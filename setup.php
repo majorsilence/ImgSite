@@ -10,7 +10,7 @@ $dbh = get_connection();
 
 // Create Users table ***************************************************************
 $sql = 'CREATE TABLE Users ' .
-	'(Id INTEGER, Email TEXT);'
+	'(Id INTEGER PRIMARY KEY DESC, Email TEXT);'
 	;
 
 $stmt = $dbh->prepare($sql);
@@ -36,7 +36,19 @@ echo json_encode($result);
 	
 // End Users table ******************************************************************
 
-$sql = "CREATE TABLE Counters (CounterType TEXT, NextNum INTEGER);";
+
+// Create a table to track all files inserted into table
+$sql = 'CREATE TABLE UsersMedia ' .
+	'(Id INTEGER PRIMARY KEY DESC, UserId Integer, FileName TEXT,
+		FOREIGN KEY(UserId) REFERENCES Users(Id));'
+	;
+
+$stmt = $dbh->prepare($sql);
+$stmt->execute();
+
+
+
+$sql = "CREATE TABLE Counters (CounterType TEXT PRIMARY KEY DESC, NextNum INTEGER);";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 

@@ -1,4 +1,7 @@
 <?php
+include("connection_info.php");
+
+
 	if ((($_FILES["userfile"]["type"] == "image/gif") 
 		|| ($_FILES["userfile"]["type"] == "image/jpeg") 
 		|| ($_FILES["userfile"]["type"] == "image/pjpeg") 
@@ -20,17 +23,42 @@
 			
 			// $uploaddir generally should be the full path
 			$uploaddir = 'img/';
-			$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
-			
-			if (file_exists($uploadfile))
-			{
-				echo $_FILES["userfile"]["name"] . " already exists. ";
-			}
-			else
-			{
 
-				move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploadfile);
-				echo "Stored in: " . $uploadfile;
+
+			$dbh = get_connection();
+			try
+			{
+				$dbh->beginTransaction();
+				$sql = "SELECT CounterType, NextNum FROM Counters where CounterType='Images';";
+				$stmt = $dbh->prepare($sql);
+				$stmt->execute();
+				
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$nextNum = $result[0]["NextNum"];
+				
+				$sql = "UPDATE Counters SET NextNum = NextNum + 1 where CounterType='Images';";
+				$stmt = $dbh->prepare($sql);
+				$stmt->execute();
+				
+				
+				$dbh->commit();
+				$uploadfile = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name']);
+		
+				if (file_exists($uploadfile))
+				{
+					echo $_FILES["userfile"]["name"] . " already exists. ";
+				}
+				else
+				{
+					move_uploaded_file($_FILES["userfile"]["tmp_name"], $uploadfile);
+				}
+				
+				
+			}
+			catch (Exception $e) 
+			{
+			  $dbh->rollBack();
+			  echo "Failed: " . $e->getMessage();
 			}
 		}
 	}

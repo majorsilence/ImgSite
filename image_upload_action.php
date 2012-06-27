@@ -33,6 +33,8 @@ function upload_image()
 			$dbh = get_connection();
 			try
 			{
+				$uploadfile = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name']);
+				
 				$dbh->beginTransaction();
 				$sql = "SELECT CounterType, NextNum FROM Counters where CounterType='Images';";
 				$stmt = $dbh->prepare($sql);
@@ -47,11 +49,15 @@ function upload_image()
 				// Id INTEGER PRIMARY KEY DESC, UserId Integer, FileName
 				$sql = "INSERT INTO UsersMedia (Id, UserId, FileName) VALUES (:id, :userid, :filename);";
 				$stmt = $dbh->prepare($sql);
+				
+				$userid = (int)$_SESSION['UserDbId'];
 				$stmt->bindParam(':id', $nextNum, PDO::PARAM_INT); 
+				$stmt->bindParam(':userid', $userid, PDO::PARAM_INT); 
+				$stmt->bindParam(':filename', $uploadfile, PDO::PARAM_STR); 
 				$stmt->execute();
 				
 				$dbh->commit();
-				$uploadfile = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name']);
+				
 		
 				if (file_exists($uploadfile))
 				{

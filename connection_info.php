@@ -42,4 +42,15 @@ function is_valid_request()
 	return false;
 }
 
+function site_menu()
+{
+	return '<div id="site_menu">' . 
+		'<a href="index.php">Home</a>' .
+		'<a href="image_upload.php">Upload Images</a>' .
+		'<a href="logout.php">Logout</a>' . 
+		'</div>';
+}
+
+
+
 ?>

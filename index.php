@@ -1,4 +1,6 @@
 <?php
+include("connection_info.php");
+
  echo "<!DOCTYPE html>\n";
 ?>
 <html>
@@ -9,6 +11,9 @@
 
 </head>
 <body>
+<?php
+	echo site_menu();
+?>
 
 <div id="login-div" style="width:75px;">
 

@@ -1,5 +1,7 @@
 <?php
- echo "<!DOCTYPE html>\n";
+include("connection_info.php");
+
+echo "<!DOCTYPE html>\n";
 ?>
 <html>
 <head>
@@ -12,7 +14,9 @@
 
 </head>
 <body>
-
+<?php
+	echo site_menu();
+?>
 	<form method="post" action="image_upload_action.php" style="width:45%" >
 		<div>
 			<input name="userfile" id="userfile" type="file" />

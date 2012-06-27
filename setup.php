@@ -12,7 +12,7 @@ $stmt->execute();
 
 // Create Users table ***************************************************************
 $sql = 'CREATE TABLE Users ' .
-	'(Id INTEGER PRIMARY KEY DESC, Email TEXT);'
+	'(Id INTEGER PRIMARY KEY DESC, Email TEXT, UNIQUE (Email));'
 	;
 
 $stmt = $dbh->prepare($sql);

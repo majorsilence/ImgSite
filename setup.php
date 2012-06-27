@@ -7,6 +7,8 @@ error_reporting(E_ALL);
 unlink("example-sqlite.sdb");
 
 $dbh = get_connection();
+$stmt = $dbh->prepare('PRAGMA foreign_keys = ON;');
+$stmt->execute();
 
 // Create Users table ***************************************************************
 $sql = 'CREATE TABLE Users ' .

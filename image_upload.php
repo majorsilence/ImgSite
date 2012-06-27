@@ -21,6 +21,15 @@
 			</p>
 		</div>
 	</form>
+	
+	<?php
+		session_start();
+		if ($_SESSION['LastUpload'] != "")
+		{
+			echo "<br />Last File Uploaded: " . $_SESSION['LastUpload'] . "<br />";
+		}
+	?>
+	
 	<script>
 		$(document).ready(function() {
 			$("#userfile").kendoUpload();

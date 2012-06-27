@@ -26,11 +26,6 @@ function upload_image()
 		}
 		else
 		{
-			echo "Upload: " . $_FILES["userfile"]["name"] . "<br />";
-			echo "Type: " . $_FILES["userfile"]["type"] . "<br />";
-			echo "Size: " . ($_FILES["userfile"]["size"] / 1024) . " Kb<br />";
-			echo "Temp file: " . $_FILES["userfile"]["tmp_name"] . "<br />";
-			
 			// $uploaddir generally should be the full path
 			$uploaddir = 'img/';
 

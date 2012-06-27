@@ -27,6 +27,7 @@
 		if ($_SESSION['LastUpload'] != "")
 		{
 			echo "<br />Last File Uploaded: " . $_SESSION['LastUpload'] . "<br />";
+			echo '<img src="' . $_SESSION['LastUpload'] . '" />';
 		}
 	?>
 	

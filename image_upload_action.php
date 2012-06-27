@@ -47,13 +47,14 @@ function upload_image()
 				$stmt = $dbh->prepare($sql);
 				$stmt->execute();
 				// Id INTEGER PRIMARY KEY DESC, UserId Integer, FileName
-				$sql = "INSERT INTO UsersMedia (Id, UserId, FileName) VALUES (:id, :userid, :filename);";
+				$sql = "INSERT INTO UsersMedia (Id, UserId, FileName, PrivateMedia, UploadTime) " . 
+					"VALUES (:id, :userid, :filename, 0, datetime());";
 				$stmt = $dbh->prepare($sql);
 				
 				$userid = (int)$_SESSION['UserDbId'];
 				$stmt->bindParam(':id', $nextNum, PDO::PARAM_INT); 
 				$stmt->bindParam(':userid', $userid, PDO::PARAM_INT); 
-				$stmt->bindParam(':filename', $uploadfile, PDO::PARAM_STR); 
+				$stmt->bindParam(':filename', $uploadfile, PDO::PARAM_STR);
 				$stmt->execute();
 				
 				$dbh->commit();
@@ -86,6 +87,7 @@ function upload_image()
 }
 
 $msg = upload_image();
+//echo $msg;
 header( 'Location: image_upload.php' ) ;
 	
 ?>

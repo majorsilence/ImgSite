@@ -43,8 +43,9 @@ echo json_encode($result);
 
 
 // Create a table to track all files inserted into table
+// PrivateMedia is used to keep track if the image is private (0) or public (1)
 $sql = 'CREATE TABLE UsersMedia ' .
-	'(Id INTEGER PRIMARY KEY DESC, UserId Integer, FileName TEXT,
+	'(Id INTEGER PRIMARY KEY DESC, UserId INTEGER, FileName TEXT, PrivateMedia BOOLEAN, UploadTime DATE,
 		FOREIGN KEY(UserId) REFERENCES Users(Id));'
 	;
 

@@ -27,4 +27,19 @@ function get_connection()
 	return $dbh;
 }
 
+function is_valid_request()
+{
+	session_start();
+
+	if($_SESSION['UserDbId'] != "" and $_SESSION['UserEmail'] != "" and $_SESSION['LoggedInUser'] == "IamLoggedIn")
+	{
+		if (is_numeric($_SESSION['UserDbId']))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 ?>

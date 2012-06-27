@@ -12,17 +12,20 @@ $stmt->execute();
 
 // Create Users table ***************************************************************
 $sql = 'CREATE TABLE Users ' .
-	'(Id INTEGER PRIMARY KEY DESC, Email TEXT, UNIQUE (Email));'
+	'(Id INTEGER PRIMARY KEY DESC, Email TEXT, Password TEXT, UNIQUE (Email));'
 	;
 
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 
-$sql = "INSERT INTO Users (Id, Email) VALUES (1, 'testing@majorsilence.com');";
+$password = hash("sha512", "password");
+$password2 = hash("sha512", "password2");
+
+$sql = "INSERT INTO Users (Id, Email, Password) VALUES (1, 'testing@majorsilence.com', '" .  $password . "');";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 
-$sql = "INSERT INTO Users (Id, Email) VALUES (2, 'testing2@majorsilence.com');";
+$sql = "INSERT INTO Users (Id, Email, Password) VALUES (2, 'testing2@majorsilence.com', '" .  $password2 . "');";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 

@@ -1,8 +1,10 @@
 <?php
 
+include("connection_info.php");
+
 session_start();
 
-if ($_SESSION['LoggedInUser'] == "IamLoggedIn")
+if (is_valid_request()==true)
 {
 	echo '<a href="logout.php">Logout</a><br />';
 }
@@ -30,11 +32,15 @@ $(document).ready(function() {
 			success: function(response)
 			{
 				if(response == 'success')
+				{
 					$("#loginform").slideUp('slow', function() {
 						$("#message").html("<p class='success'>You have logged in successfully!</p><a href=\"logout.php\">Logout</a><br />");
 					});
+				}
 				else
-					$("#message").html("<p class='error'>Invalid username and/or password.</p>");	
+				{
+					$("#message").html("<p class='error'>Invalid username and/or password.</p>");
+				}
 			}
 		});
 		

@@ -12,8 +12,13 @@
 
 <div id="login-div" style="width:75px;">
 
-<div>
+</div>
 
+<div>
+Upload and View Images
+
+An account is required to upload images.  All images that are uploaded are public.
+</div>
 
 <script>
   $("#login-div").load("login.php");

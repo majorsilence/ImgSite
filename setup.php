@@ -62,5 +62,9 @@ $sql = "INSERT INTO Counters (CounterType, NextNum) VALUES ('Images', 0);";
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 
+$sql = "INSERT INTO Counters (CounterType, NextNum) VALUES ('Users', 3);";
+$stmt = $dbh->prepare($sql);
+$stmt->execute();
+
 
 ?>

@@ -8,6 +8,11 @@ include("connection_info.php");
 <title></title>
 <script src = 'javascript/jquery.min.js' type='text/javascript'></script>
 
+<?php
+
+    echo site_header_info();
+
+?>
 
 </head>
 <body>
@@ -15,19 +20,14 @@ include("connection_info.php");
 	echo site_menu();
 ?>
 
-<div id="login-div" style="width:75px;">
 
-</div>
 
-<div>
+<div class = "content">
 Upload and View Images
 
 An account is required to upload images.  All images that are uploaded are public.
 </div>
 
-<script>
-  $("#login-div").load("login.php");
-</script>
 
 
 </body>

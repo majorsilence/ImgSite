@@ -1,0 +1,14 @@
+body{
+    background-color: black;
+    color: white;
+}
+
+a:link {color:white;}      /* unvisited link */
+a:visited {color:white;}  /* visited link */
+
+.content{
+    position: absolute;
+    left: 200px;
+    top: 50px;
+    width: 100%;
+}

@@ -62,11 +62,12 @@ $(document).ready(function() {
     <p>
       <input type="submit" id="login" name="login" />
     </p>
+    
+      <br />
+      <a href="create_user.php">Create New User</a>
+      <br />
   </form>
   
-  <br />
-  <a href="create_user.php">Create New User</a>
-  <br />
   <div id="message"></div>
 
   <?php

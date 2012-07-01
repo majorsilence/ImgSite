@@ -44,11 +44,20 @@ function is_valid_request()
 
 function site_menu()
 {
-	return '<div id="site_menu">' . 
-		'<a href="index.php">Home</a>' .
-		'<a href="image_upload.php">Upload Images</a>' .
-		'<a href="logout.php">Logout</a>' . 
-		'</div>';
+	return '<div id="site_menu" style="float: left;">' . 
+            '<a href="index.php">Home</a> <br />' .
+            '<a href="image_upload.php">Upload Images</a> <br /> ' .
+            '<div id="login-div" style="width:75px; float: left;">' .
+            '</div>' .
+        '</div>' .
+        '<script  type=\'text/javascript\'>' .
+        '  $("#login-div").load("login.php");' .
+        '</script>';
+}
+
+function site_header_info()
+{
+    return '<link rel="stylesheet" href="styles/style.css" type="text/css"/>';
 }
 
 

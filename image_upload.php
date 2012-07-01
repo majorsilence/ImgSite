@@ -27,7 +27,7 @@ echo "<!DOCTYPE html>\n";
     <div class="content">
         <form method="post" action="image_upload_action.php" style="width:45%" >
             <div>
-                <input name="userfile" id="userfile" type="file" />
+                <input name="userfile[]" id="userfile" type="file" />
                 <p>
                     <input type="submit" value="Submit" class="k-button" />
                 </p>

@@ -24,19 +24,19 @@ include("simpleimage.php");
 
 function upload_image()
 {
-	
 
-	if (is_valid_request() == false)
-	{
-		return "Failure to upload.  Not a valid request.  Make sure you are logged in";
-	}
-	
+
+    if (is_valid_request() == false)
+    {
+        return "Failure to upload.  Not a valid request.  Make sure you are logged in";
+    }
+
     $webrequest =  (int)$_REQUEST['webupload'];
     
     
     $uploaded=0;
     
-	session_start();
+    session_start();
     
     $dbh = get_connection();
     $dbh->beginTransaction();
@@ -79,8 +79,7 @@ function upload_image()
             foreach($files as $value)
             {
                 $temp_file = tempnam(sys_get_temp_dir(), 'imgsite');
-                $name = basename($temp_file);
-
+                
                 $ch = curl_init ();
                 curl_setopt($ch, CURLOPT_URL, $value);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect: 100-continue"));
@@ -106,6 +105,15 @@ function upload_image()
                 $fp = fopen($temp_file,'w');
                 fwrite($fp, $rawdata);
                 fclose($fp);
+                
+                // Auto Convert Downloaded Files to Png
+              
+                $image = new SimpleImage();
+                $image->load($temp_file);
+                $image->save($temp_file, IMAGETYPE_PNG);
+                
+                $name = str_replace(".tmp", "", $temp_file) . ".png";
+                
                 
                 //echo $temp_file;
                 savefile($dbh, $name, $temp_file);
@@ -190,6 +198,6 @@ function savefile($dbh, $name, $the_file)
 
 upload_image();
 
-//header( 'Location: image_upload.php' ) ;
-	
+header( 'Location: image_upload.php' ) ;
+
 ?>

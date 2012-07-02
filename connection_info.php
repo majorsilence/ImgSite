@@ -47,6 +47,7 @@ function site_menu()
 	return '<div id="site_menu" style="float: left;">' . 
             '<a href="index.php">Home</a> <br />' .
             '<a href="image_upload.php">Upload Images</a> <br /> ' .
+            '<a href="browse_images.php">Browse Images</a> <br /> ' .
             '<div id="login-div" style="width:75px; float: left;">' .
             '</div>' .
         '</div>' .

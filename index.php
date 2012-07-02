@@ -22,7 +22,7 @@ include("connection_info.php");
 
 
 
-<div class = "content">
+<div class = "maincontent">
 Upload and View Images
 
 An account is required to upload images.  All images that are uploaded are public.

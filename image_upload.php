@@ -24,7 +24,7 @@ echo "<!DOCTYPE html>\n";
 	echo site_menu();
 ?>
 
-    <div class="content">
+    <div class="maincontent">
         <form method="post" action="image_upload_action.php" style="width:45%" >
             <div>
                 <input name="userfile[]" id="userfile" type="file" />

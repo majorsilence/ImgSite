@@ -79,15 +79,14 @@ function upload_image()
             foreach($files as $value)
             {
                 $temp_file = tempnam(sys_get_temp_dir(), 'imgsite');
-                
                 $name = basename($temp_file);
 
                 $ch = curl_init ();
                 curl_setopt($ch, CURLOPT_URL, $value);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect: 100-continue"));
-                curl_setopt($ch, CURLOPT_HEADER, 1);   
+                curl_setopt($ch, CURLOPT_HEADER, 0);   
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+                curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
                 curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6");
                 
@@ -103,11 +102,12 @@ function upload_image()
                 $rawdata=curl_exec($ch);
                 curl_close ($ch);
 
-                $fp = fopen($temp_file,'x');
+                
+                $fp = fopen($temp_file,'w');
                 fwrite($fp, $rawdata);
                 fclose($fp);
                 
-                echo $temp_file;
+                //echo $temp_file;
                 savefile($dbh, $name, $temp_file);
                 
             }
@@ -165,8 +165,12 @@ function savefile($dbh, $name, $the_file)
     {
         
     
-        move_uploaded_file($the_file, $uploadfile_orig);
-      
+        if (move_uploaded_file($the_file, $uploadfile_orig) == false)
+        {
+            // not a uploaded file.  Probably web download.  Try moving manually.
+             copy($the_file, $uploadfile_orig);
+        }
+        
         
         $image = new SimpleImage();
         $image->load($uploadfile_orig);

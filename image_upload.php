@@ -45,15 +45,34 @@ echo "<!DOCTYPE html>\n";
 ?>
 
     <div class="maincontent">
-        <form method="post" action="image_upload_action.php" style="width:45%" >
-            <div>
-                <input name="userfile[]" id="userfile" type="file" />
-                <p>
-                    <input type="submit" value="Submit" class="k-button" />
-                </p>
-            </div>
-        </form>
-        
+        <table width="100%">
+            <tr>
+                <td width="25%" valign="top">
+                    <form method="post" action="image_upload_action.php?webupload=0" style="width:100%" >
+                        Upload from computer <br />
+                        <div>
+                            <input name="userfile[]" id="userfile" type="file" />
+                            <p>
+                                <input type="submit" value="Submit" class="k-button" />
+                            </p>
+                        </div>
+                    </form>
+                </td>
+                
+                <td valign="top">
+                    <form method="post" action="image_upload_action.php?webupload=1" style="width:100%" >
+                        Upload from the web <br />
+                        Enter the URLs of images, one per line: <br />
+                        <div>
+                            <textarea name="userfile[]" id="userfile" rows="5" cols="60">http://www.majorsilence.com/image.png</textarea>
+                            <p>
+                                <input type="submit" value="Submit" class="k-button" />
+                            </p>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
         <?php
             session_start();
             if ($_SESSION['LastUpload'] != "")

@@ -31,6 +31,9 @@ function upload_image()
 		return "Failure to upload.  Not a valid request.  Make sure you are logged in";
 	}
 	
+    $webrequest =  (int)$_REQUEST['webupload'];
+    
+    
     $uploaded=0;
     
 	session_start();
@@ -39,91 +42,78 @@ function upload_image()
     $dbh->beginTransaction();
     try
     {
-        foreach ($_FILES['userfile']['name'] as $i => $name) { 
-            
-            if ($_FILES['userfile']['error'][$i] > 0) { 
-                continue;  
+        if ($webrequest == 0)
+        {
+            // computer upload
+            foreach ($_FILES['userfile']['name'] as $i => $name) { 
+                
+                if ($_FILES['userfile']['error'][$i] > 0) { 
+                    continue;  
+                } 
+
+                 if ($_FILES['userfile']['size'][$i] > 22000000) { 
+                    $message[] = "$name exceeded file limit."; 
+                    continue;   
+                 } 
+                 
+                 
+                if (($_FILES["userfile"]["type"][$i] == "image/gif") 
+                    || ($_FILES["userfile"]["type"][$i] == "image/jpeg") 
+                    || ($_FILES["userfile"]["type"][$i] == "image/pjpeg") 
+                    || ($_FILES["userfile"]["type"][$i] == "image/png")
+                )
+                {
+                    savefile($dbh, $_FILES["userfile"]["name"][$i], $_FILES["userfile"]["tmp_name"][$i]);
+                    
+                }
+                 
+                 $uploaded++; 
+             
+             
             } 
-
-             if ($_FILES['userfile']['size'][$i] > 22000000) { 
-                $message[] = "$name exceeded file limit."; 
-                continue;   
-             } 
-             
-             
-            if (($_FILES["userfile"]["type"][$i] == "image/gif") 
-                || ($_FILES["userfile"]["type"][$i] == "image/jpeg") 
-                || ($_FILES["userfile"]["type"][$i] == "image/pjpeg") 
-                || ($_FILES["userfile"]["type"][$i] == "image/png")
-            )
+        }
+        else{
+            // web upload
+            $userfiles = $_REQUEST["userfile"];
+            $files = explode("\n", $userfiles[0]);
+            foreach($files as $value)
             {
-                $uploaddir = 'img/';
-            
+                $temp_file = tempnam(sys_get_temp_dir(), 'imgsite');
+                
+                $name = basename($temp_file);
 
-               
+                $ch = curl_init ();
+                curl_setopt($ch, CURLOPT_URL, $value);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect: 100-continue"));
+                curl_setopt($ch, CURLOPT_HEADER, 1);   
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
+                curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6");
                 
+                // if you are not running with SSL or if you don't have valid SSL
+                $verify_peer = false;
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $verify_peer);
+
+                // Disable HOST (the site you are sending request to) SSL Verification,
+                // if Host can have certificate which is invalid / expired / not signed by authorized CA.
+                $verify_host = false;
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $verify_host);
                 
-                $sql = "SELECT CounterType, NextNum FROM Counters where CounterType='Images';";
-                $stmt = $dbh->prepare($sql);
-                $stmt->execute();
+                $rawdata=curl_exec($ch);
+                curl_close ($ch);
+
+                $fp = fopen($temp_file,'x');
+                fwrite($fp, $rawdata);
+                fclose($fp);
                 
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $nextNum = $result[0]["NextNum"];
-                
-                $sql = "UPDATE Counters SET NextNum = NextNum + 1 where CounterType='Images';";
-                $stmt = $dbh->prepare($sql);
-                $stmt->execute();
-                // Id INTEGER PRIMARY KEY DESC, UserId Integer, FileNameOrig, FileNameView, FileNamePreview
-                $sql = "INSERT INTO UsersMedia (Id, UserId, FileNameOrig, FileNameView, FileNamePreview, PrivateMedia, UploadTime) " . 
-                    "VALUES (:id, :userid, :filenameorig, :filenameview, :filenamepreview, 0, datetime());";
-                $stmt = $dbh->prepare($sql);
-                
-                $uploadfile_orig = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name'][$i]);
-                $uploadfile_preview = $uploaddir . $nextNum . "-preview-" . basename($_FILES['userfile']['name'][$i]);
-                $uploadfile_view = $uploaddir . $nextNum . "-view-" . basename($_FILES['userfile']['name'][$i]);
-                
-                $userid = (int)$_SESSION['UserDbId'];
-                $stmt->bindParam(':id', $nextNum, PDO::PARAM_INT); 
-                $stmt->bindParam(':userid', $userid, PDO::PARAM_INT); 
-                $stmt->bindParam(':filenameorig', $uploadfile_orig, PDO::PARAM_STR);
-                $stmt->bindParam(':filenameview', $uploadfile_view, PDO::PARAM_STR);
-                $stmt->bindParam(':filenamepreview', $uploadfile_preview, PDO::PARAM_STR);
-                $stmt->execute();
-                
-                if (file_exists($uploadfile_orig))
-                {
-  
-                    
-                    return $_FILES["userfile"]["name"][$i] . " already exists. ";
-                }
-                else
-                {
-                    
-                
-                    move_uploaded_file($_FILES["userfile"]["tmp_name"][$i], $uploadfile_orig);
-                  
-                    
-                    $image = new SimpleImage();
-                    $image->load($uploadfile_orig);
-                    $image->resizeToHeight(500);
-                    $image->resizeToWidth(500);
-                    $image->save($uploadfile_view);
-                    
-                    $image->resizeToHeight(70);
-                    $image->resizeToWidth(70);
-                    $image->save($uploadfile_preview);
-                    
-                    $_SESSION['LastUpload'] = (string)$uploadfile_view;
-                    
-                }
-                
+                echo $temp_file;
+                savefile($dbh, $name, $temp_file);
                 
             }
-             
-             $uploaded++; 
-         
-         
-        } 
+            
+            
+        }
         $dbh->commit();
     }
     catch (Exception $e) 
@@ -135,8 +125,67 @@ function upload_image()
 
 }
 
+function savefile($dbh, $name, $the_file)
+{
+    $uploaddir = 'img/';
+                
+
+    $sql = "SELECT CounterType, NextNum FROM Counters where CounterType='Images';";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $nextNum = $result[0]["NextNum"];
+    
+    $sql = "UPDATE Counters SET NextNum = NextNum + 1 where CounterType='Images';";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    // Id INTEGER PRIMARY KEY DESC, UserId Integer, FileNameOrig, FileNameView, FileNamePreview
+    $sql = "INSERT INTO UsersMedia (Id, UserId, FileNameOrig, FileNameView, FileNamePreview, PrivateMedia, UploadTime) " . 
+        "VALUES (:id, :userid, :filenameorig, :filenameview, :filenamepreview, 0, datetime());";
+    $stmt = $dbh->prepare($sql);
+    
+    $uploadfile_orig = $uploaddir . $nextNum . "-" . basename($name);
+    $uploadfile_preview = $uploaddir . $nextNum . "-preview-" . basename($name);
+    $uploadfile_view = $uploaddir . $nextNum . "-view-" . basename($name);
+    
+    $userid = (int)$_SESSION['UserDbId'];
+    $stmt->bindParam(':id', $nextNum, PDO::PARAM_INT); 
+    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT); 
+    $stmt->bindParam(':filenameorig', $uploadfile_orig, PDO::PARAM_STR);
+    $stmt->bindParam(':filenameview', $uploadfile_view, PDO::PARAM_STR);
+    $stmt->bindParam(':filenamepreview', $uploadfile_preview, PDO::PARAM_STR);
+    $stmt->execute();
+    
+    if (file_exists($uploadfile_orig))
+    {
+        return $name . " already exists. ";
+    }
+    else
+    {
+        
+    
+        move_uploaded_file($the_file, $uploadfile_orig);
+      
+        
+        $image = new SimpleImage();
+        $image->load($uploadfile_orig);
+        $image->resizeToHeight(500);
+        $image->resizeToWidth(500);
+        $image->save($uploadfile_view);
+        
+        $image->resizeToHeight(70);
+        $image->resizeToWidth(70);
+        $image->save($uploadfile_preview);
+        
+        $_SESSION['LastUpload'] = (string)$uploadfile_view;
+        
+    }
+}
+
+
 upload_image();
 
-header( 'Location: image_upload.php' ) ;
+//header( 'Location: image_upload.php' ) ;
 	
 ?>

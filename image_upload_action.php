@@ -106,9 +106,11 @@ function upload_image()
                     $image = new SimpleImage();
                     $image->load($uploadfile_orig);
                     $image->resizeToHeight(500);
+                    $image->resizeToWidth(500);
                     $image->save($uploadfile_view);
                     
                     $image->resizeToHeight(70);
+                    $image->resizeToWidth(70);
                     $image->save($uploadfile_preview);
                     
                     $_SESSION['LastUpload'] = (string)$uploadfile_view;

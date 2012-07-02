@@ -55,7 +55,7 @@ include("connection_info.php");
                             
                             $dbh = get_connection();
         
-                            $sql = "SELECT Id, FileName, UploadTime FROM UsersMedia ORDER BY UploadTime DESC LIMIT 50;";
+                            $sql = "SELECT Id, FileNameOrig, FileNameView, FileNamePreview, UploadTime FROM UsersMedia ORDER BY UploadTime DESC LIMIT 50;";
                             $stmt = $dbh->prepare($sql);
                             $stmt->execute();
                             
@@ -67,15 +67,17 @@ include("connection_info.php");
                             
                                 foreach($result as $value)
                                 {
-                                    $img_src = $value["FileName"];
+                                    $img_preview_src = $value["FileNamePreview"];
+                                    $img_view_src = $value["FileNameView"];
+                                    $img_orig_src = $value["FileNameOrig"];
                                 
                                     echo "<li>\n";
-                                    echo '    <a class="thumb" name="leaf" href="' . $img_src . '" title="Title #0">' . "\n";
-                                    echo '        <img src="' . $img_src . '" alt="Title #0" />' . "\n";
+                                    echo '    <a class="thumb" name="leaf" href="' . $img_view_src . '" title="Title #0">' . "\n";
+                                    echo '        <img src="' . $img_preview_src . '" alt="Title #0" />' . "\n";
                                     echo "    </a>\n";
                                     echo '    <div class="caption">' . "\n";
                                     echo '        <div class="download">' . "\n";
-                                    echo '            <a href="' . $img_src . '">Download Original</a>' . "\n";
+                                    echo '            <a href="' . $img_orig_src . '">Download Original</a>' . "\n";
                                     echo "        </div>\n";
                                     echo '        <div class="image-title">Title #0</div>' . "\n";
                                     echo '        <div class="image-desc">Description</div>' . "\n";

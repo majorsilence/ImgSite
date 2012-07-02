@@ -1,5 +1,6 @@
 <?php
 include("connection_info.php");
+include("simpleimage.php");
 
 function upload_image()
 {
@@ -52,27 +53,46 @@ function upload_image()
                 $sql = "UPDATE Counters SET NextNum = NextNum + 1 where CounterType='Images';";
                 $stmt = $dbh->prepare($sql);
                 $stmt->execute();
-                // Id INTEGER PRIMARY KEY DESC, UserId Integer, FileName
-                $sql = "INSERT INTO UsersMedia (Id, UserId, FileName, PrivateMedia, UploadTime) " . 
-                    "VALUES (:id, :userid, :filename, 0, datetime());";
+                // Id INTEGER PRIMARY KEY DESC, UserId Integer, FileNameOrig, FileNameView, FileNamePreview
+                $sql = "INSERT INTO UsersMedia (Id, UserId, FileNameOrig, FileNameView, FileNamePreview, PrivateMedia, UploadTime) " . 
+                    "VALUES (:id, :userid, :filenameorig, :filenameview, :filenamepreview, 0, datetime());";
                 $stmt = $dbh->prepare($sql);
                 
-                 $uploadfile = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name'][$i]);
-                 
+                $uploadfile_orig = $uploaddir . $nextNum . "-" . basename($_FILES['userfile']['name'][$i]);
+                $uploadfile_preview = $uploaddir . $nextNum . "-preview-" . basename($_FILES['userfile']['name'][$i]);
+                $uploadfile_view = $uploaddir . $nextNum . "-view-" . basename($_FILES['userfile']['name'][$i]);
+                
                 $userid = (int)$_SESSION['UserDbId'];
                 $stmt->bindParam(':id', $nextNum, PDO::PARAM_INT); 
                 $stmt->bindParam(':userid', $userid, PDO::PARAM_INT); 
-                $stmt->bindParam(':filename', $uploadfile, PDO::PARAM_STR);
+                $stmt->bindParam(':filenameorig', $uploadfile_orig, PDO::PARAM_STR);
+                $stmt->bindParam(':filenameview', $uploadfile_view, PDO::PARAM_STR);
+                $stmt->bindParam(':filenamepreview', $uploadfile_preview, PDO::PARAM_STR);
                 $stmt->execute();
                 
-                if (file_exists($uploadfile))
+                if (file_exists($uploadfile_orig))
                 {
+  
+                    
                     return $_FILES["userfile"]["name"][$i] . " already exists. ";
                 }
                 else
                 {
-                    move_uploaded_file($_FILES["userfile"]["tmp_name"][$i], $uploadfile);
-                    $_SESSION['LastUpload'] = (string)$uploadfile;
+                    
+                
+                    move_uploaded_file($_FILES["userfile"]["tmp_name"][$i], $uploadfile_orig);
+                  
+                    
+                    $image = new SimpleImage();
+                    $image->load($uploadfile_orig);
+                    $image->resizeToHeight(500);
+                    $image->save($uploadfile_view);
+                    
+                    $image->resizeToHeight(70);
+                    $image->save($uploadfile_preview);
+                    
+                    $_SESSION['LastUpload'] = (string)$uploadfile_view;
+                    
                 }
                 
                 

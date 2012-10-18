@@ -65,21 +65,46 @@ function is_valid_request()
 
 function site_menu()
 {
-	return '<div id="site_menu" style="float: left;">' . 
-            '<a href="index.php">Home</a> <br />' .
-            '<a href="image_upload.php">Upload Images</a> <br /> ' .
-            '<a href="browse_images.php">Browse Images</a> <br /> ' .
-            '<div id="login-div" style="width:75px; float: left;">' .
-            '</div>' .
+	return '<div id="site_menu"  class="k-content">' . 
+               '<ul id="site_menu">' . 
+                
+                '<li>' . 
+                '    <a href="index.php">Home</a>' .  
+                '</li>' . 
+                '<li>' . 
+                 '   <a href="image_upload.php">Upload Images</a>' . 
+                '</li>' . 
+                '<li>' . 
+                '    <a href="browse_images.php">Browse Images</a>' . 
+                '</li>' . 
+                
+            '</ul>' . 
+            //'<a href="index.php">Home</a> <br />' .
+            //'<a href="image_upload.php">Upload Images</a> <br /> ' .
+            //'<a href="browse_images.php">Browse Images</a> <br /> ' .
+            //'<div id="login-div" style="width:75px; float: left;">' .
+            //'</div>' .
         '</div>' .
         '<script  type=\'text/javascript\'>' .
         '  $("#login-div").load("login.php");' .
+        '$(document).ready(function() {' .
+        '        $("#site_menu").kendoMenu();' .
+        '   });' .
         '</script>';
+        
+        
+        
+
 }
 
 function site_header_info()
 {
-    return '<link rel="stylesheet" href="styles/style.css" type="text/css"/>';
+    return '<link rel="stylesheet" href="styles/style.css" type="text/css"/>' .
+     '<script src = "javascript/jquery.min.js" type="text/javascript"></script>' .
+     '<script src="javascript/jquery.min.js" type="text/javascript"></script>' .
+    '<script src="javascript/kendo.web.min.js" type="text/javascript"></script>' .
+    '<link href="styles/kendo.common.css" rel="stylesheet" />' .
+    '<link href="styles/kendo.default.css" rel="stylesheet" />';
 }
 
 

@@ -26,7 +26,6 @@ include("connection_info.php");
 <html>
 <head>
 <title></title>
-<script src = 'javascript/jquery.min.js' type='text/javascript'></script>
 
 <?php
 

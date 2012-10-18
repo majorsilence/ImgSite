@@ -32,11 +32,6 @@ echo "<!DOCTYPE html>\n";
 <head>
 <title>Image Upload</title>
 
-    <script src="javascript/jquery.min.js" type='text/javascript'></script>
-    <script src="javascript/kendo.web.min.js" type='text/javascript'></script>
-    <link href="styles/kendo.common.css" rel="stylesheet" />
-    <link href="styles/kendo.default.css" rel="stylesheet" />
-
 <?php
 
     echo site_header_info();

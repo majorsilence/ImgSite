@@ -34,8 +34,15 @@ if(session_id() == '')
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title></title>
+        
+        
+        <?php
+
+            echo site_header_info();
+
+        ?>
+        
 		<link rel="stylesheet" href="styles/galleriffic-2.css" type="text/css" />
-		<script src = 'javascript/jquery.min.js' type='text/javascript'></script>
 		<script type="text/javascript" src="javascript/jquery.galleriffic.js"></script>
 		<script type="text/javascript" src="javascript/jquery.opacityrollover.js"></script>
 		<script type="text/javascript">
@@ -44,11 +51,7 @@ if(session_id() == '')
         
         
 
-        <?php
-
-            echo site_header_info();
-
-        ?>
+        
         
 	</head>
 	<body>

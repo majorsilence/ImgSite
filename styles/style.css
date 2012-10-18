@@ -8,10 +8,9 @@ a:link {color:white;}
 a:visited {color:white;} 
 
 .maincontent{
-    position: absolute;
-    left: 200px;
     top: 50px;
     width: 100%;
+    text-align: center;
 }
 
 p, li {
@@ -39,6 +38,8 @@ pre {
 div#page {
 	width: 900px;
 	text-align: left;
+    margin-left:auto; 
+    margin-right: auto;
 	border-color: #ddd;
 	border-style: none solid solid;
 	border-width: medium 1px 1px;

@@ -21,6 +21,11 @@
 
 include("connection_info.php");
 
+if(session_id() == '') 
+{
+    session_start();
+}
+
  echo "<!DOCTYPE html>\n";
 
 ?>
@@ -80,7 +85,7 @@ include("connection_info.php");
                             
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             
-                            session_start();
+                            
                             if (count($result) > 0)
                             {
                             

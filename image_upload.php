@@ -21,6 +21,11 @@
 
 include("connection_info.php");
 
+if(session_id() == '') 
+{
+    session_start();
+}
+
 echo "<!DOCTYPE html>\n";
 ?>
 <html>
@@ -74,10 +79,7 @@ echo "<!DOCTYPE html>\n";
             </tr>
         </table>
         <?php
-            if(session_id() == '') 
-            {
-                session_start();
-            }
+
             
             if ($_SESSION['LastUpload'] != "")
             {

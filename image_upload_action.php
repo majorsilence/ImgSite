@@ -36,7 +36,10 @@ function upload_image()
     
     $uploaded=0;
     
-    session_start();
+    if(session_id() == '') 
+    {
+        session_start();
+    }
     
     $dbh = get_connection();
     $dbh->beginTransaction();

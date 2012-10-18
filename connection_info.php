@@ -48,9 +48,11 @@ function get_connection()
 
 function is_valid_request()
 {
-	session_start();
+    if(session_id() == '') {
+        session_start();    // session isn't started
+    }
 
-	if($_SESSION['UserDbId'] != "" and $_SESSION['UserEmail'] != "" and $_SESSION['LoggedInUser'] == "IamLoggedIn")
+	if(isset($_SESSION['UserDbId']) and isset($_SESSION['UserEmail']) and isset($_SESSION['LoggedInUser']))
 	{
 		if (is_numeric($_SESSION['UserDbId']))
 		{

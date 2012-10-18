@@ -74,7 +74,11 @@ echo "<!DOCTYPE html>\n";
             </tr>
         </table>
         <?php
-            session_start();
+            if(session_id() == '') 
+            {
+                session_start();
+            }
+            
             if ($_SESSION['LastUpload'] != "")
             {
                 echo "<br />Last File Uploaded: " . $_SESSION['LastUpload'] . "<br />";

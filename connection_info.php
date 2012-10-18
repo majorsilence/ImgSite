@@ -65,34 +65,34 @@ function is_valid_request()
 
 function site_menu()
 {
-	return '<div id="site_menu"  class="k-content">' . 
-               '<ul id="site_menu">' . 
+	return '<div id="the_menu"  >' .  "\n" .
+               '<ul id="site_menu">' .  "\n" .
                 
-                '<li>' . 
-                '    <a href="index.php">Home</a>' .  
-                '</li>' . 
-                '<li>' . 
-                 '   <a href="image_upload.php">Upload Images</a>' . 
-                '</li>' . 
-                '<li>' . 
-                '    <a href="browse_images.php">Browse Images</a>' . 
-                '</li>' . 
+                '<li>' .  "\n" .
+                '    <a href="index.php">Home</a>' . "\n" .  
+                '</li>' .  "\n" .
+                '<li>' .  "\n" .
+                 '   <a href="image_upload.php">Upload Images</a>' . "\n" . 
+                '</li>' .  "\n" .
+                '<li>' .  "\n" .
+                '    <a href="browse_images.php">Browse Images</a>' . "\n" . 
+                '</li>' .  "\n" .
                 
-            '</ul>' . 
+            '</ul>' .  "\n" .
             //'<a href="index.php">Home</a> <br />' .
             //'<a href="image_upload.php">Upload Images</a> <br /> ' .
             //'<a href="browse_images.php">Browse Images</a> <br /> ' .
             
-        '</div>' .
-        '<div id="login-div" style="width:75px; float: left;">' .
-            '</div>' .
-        '<script  type=\'text/javascript\'>' .
-        '  $("#login-div").load("login.php");' .
-        '$(document).ready(function() {' .
-        '       $("#site_menu").kendoMenu({' .
-        '              animation: { open: { effects: "fadeIn" } } ' .
-        '        });' .
-        '   });' .
+        '</div>' . "\n" .
+        '<div id="login-div" style="width:75px; float: left;">' . "\n" .
+            '</div>' . "\n" .
+        '<script  type=\'text/javascript\'>' . "\n" .
+        '  $("#login-div").load("login.php");' . "\n" .
+        '$(document).ready(function() {' . "\n" .
+        '       $("#site_menu").kendoMenu({' . "\n" .
+        '              animation: { open: { effects: "fadeIn" } } ' . "\n" .
+        '        });' . "\n" .
+        '   });' . "\n" .
         '</script>';
         
         
@@ -102,12 +102,11 @@ function site_menu()
 
 function site_header_info()
 {
-    return '<link rel="stylesheet" href="styles/style.css" type="text/css"/>' .
-     '<script src = "javascript/jquery.min.js" type="text/javascript"></script>' .
-     '<script src="javascript/jquery.min.js" type="text/javascript"></script>' .
-    '<script src="javascript/kendo.web.min.js" type="text/javascript"></script>' .
-    '<link href="styles/kendo.common.css" rel="stylesheet" />' .
-    '<link href="styles/kendo.default.css" rel="stylesheet" />';
+    return '<link rel="stylesheet" href="styles/style.css" type="text/css" />' . "\n" .
+     '<script src = "javascript/jquery.min.js" type="text/javascript"></script>' . "\n" .
+    '<script src="javascript/kendo.web.min.js" type="text/javascript"></script>' . "\n" .
+    '<link href="styles/kendo.common.css" rel="stylesheet" type="text/css" />' . "\n" .
+    '<link href="styles/kendo.default.css" rel="stylesheet" type="text/css" />';
 }
 
 

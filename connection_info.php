@@ -65,16 +65,19 @@ function is_valid_request()
 
 function site_menu()
 {
-	return '<div id="the_menu"  >' .  "\n" .
+	$menu = '<div id="the_menu"  >' .  "\n" .
                '<ul id="site_menu">' .  "\n" .
                 
                 '<li>' .  "\n" .
                 '    <a href="index.php">Home</a>' . "\n" .  
                 '</li>' .  "\n" .
-                '<li>' .  "\n" .
-                 '   <a href="image_upload.php">Upload Images</a>' . "\n" . 
-                '</li>' .  "\n" .
-                '<li>' .  "\n" .
+                '<li>' .  "\n";
+                if (is_valid_request())
+                {
+                    $menu .= '   <a href="image_upload.php">Upload Images</a>' . "\n" . 
+                    '</li>' .  "\n";
+                }
+                $menu .= '<li>' .  "\n" .
                 '    <a href="browse_images.php">Browse Images</a>' . "\n" . 
                 '</li>' .  "\n" .
                 
@@ -95,7 +98,7 @@ function site_menu()
         '   });' . "\n" .
         '</script>';
         
-        
+        return $menu;
         
 
 }

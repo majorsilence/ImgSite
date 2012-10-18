@@ -45,6 +45,10 @@ echo "<!DOCTYPE html>\n";
 ?>
 
     <div class="maincontent">
+    <?php
+        if (is_valid_request())
+        {
+    ?>
         <table width="100%">
             <tr>
                 <td width="25%" valign="top">
@@ -74,7 +78,11 @@ echo "<!DOCTYPE html>\n";
             </tr>
         </table>
         <?php
-
+            }
+            else
+            {
+                echo "Only logged in users can upload files.";
+            }
             
             if ($_SESSION['LastUpload'] != "")
             {

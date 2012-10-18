@@ -82,13 +82,16 @@ function site_menu()
             //'<a href="index.php">Home</a> <br />' .
             //'<a href="image_upload.php">Upload Images</a> <br /> ' .
             //'<a href="browse_images.php">Browse Images</a> <br /> ' .
-            //'<div id="login-div" style="width:75px; float: left;">' .
-            //'</div>' .
+            
         '</div>' .
+        '<div id="login-div" style="width:75px; float: left;">' .
+            '</div>' .
         '<script  type=\'text/javascript\'>' .
         '  $("#login-div").load("login.php");' .
         '$(document).ready(function() {' .
-        '        $("#site_menu").kendoMenu();' .
+        '       $("#site_menu").kendoMenu({' .
+        '              animation: { open: { effects: "fadeIn" } } ' .
+        '        });' .
         '   });' .
         '</script>';
         

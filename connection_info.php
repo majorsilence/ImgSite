@@ -49,7 +49,7 @@ function get_connection()
 function is_valid_request()
 {
     if(session_id() == '') {
-        session_start();    // session isn't started
+		return false;
     }
 
 	if(isset($_SESSION['UserDbId']) and isset($_SESSION['UserEmail']) and isset($_SESSION['LoggedInUser']))

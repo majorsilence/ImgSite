@@ -22,6 +22,12 @@
 include("connection_info.php");
 include("simpleimage.php");
 
+if(session_id() == '') 
+{
+    session_start();
+}
+
+
 function upload_image()
 {
 

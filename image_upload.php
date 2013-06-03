@@ -84,10 +84,13 @@ echo "<!DOCTYPE html>\n";
                 echo "Only logged in users can upload files.";
             }
             
-            if ($_SESSION['LastUpload'] != "")
+            if (isset($_SESSION['LastUpload']))
             {
-                echo "<br />Last File Uploaded: " . $_SESSION['LastUpload'] . "<br />";
-                echo '<img src="' . $_SESSION['LastUpload'] . '" />';
+				if ($_SESSION['LastUpload'] != "") 
+				{
+					echo "<br />Last File Uploaded: " . $_SESSION['LastUpload'] . "<br />";
+					echo '<img src="' . $_SESSION['LastUpload'] . '" />';
+				}
             }
         ?>
         
